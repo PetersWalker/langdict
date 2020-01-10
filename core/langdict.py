@@ -31,5 +31,5 @@ class LangDict(UserDict):
         return from_csv_dict
 
     def add(self,dict_2):
-        """if isinstance(self, LangDict) and isinstance(dict_2, Langdict):"""
+        
         return {**self, **dict_2}

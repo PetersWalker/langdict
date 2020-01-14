@@ -2,8 +2,10 @@ import re
 
 def cleanFunc(path):
     #open csvfile
-    with open(path) as file:
+    with open(path, encoding='mac-roman') as file:
         #turn file into list of strings
+
+        #unicode error in for loop for multiple csvs
         cleanable = [ str(line) for line in file ]
 
         #regex for all non alphabet and space characters

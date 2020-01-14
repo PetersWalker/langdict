@@ -7,8 +7,8 @@ from .clean_csv import cleanFunc
 # combine csvs into one csv?
 
 class LangDict(UserDict):
-    # creates a LangDict object from a csv file
 
+    # creates a LangDict object from a csv file
     @classmethod
     def from_csv(cls,path):
         # ['word and its def'] --> {'word': ['and', 'its', 'def']}
@@ -31,5 +31,5 @@ class LangDict(UserDict):
         return from_csv_dict
 
     def add(self,dict_2):
-        
-        return {**self, **dict_2}
+
+        return LangDict({**self, **dict_2})

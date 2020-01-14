@@ -7,18 +7,17 @@ from core.to_acyclic import to_acyclic
 directory = '/Users/peterwalker/Desktop/projects/langdict/core/data/Dictionary_in_csv/'
 
 #build new graph from the separate csvs
-G = LangDict()
+dict = LangDict()
 
+#each file to Langdict, add together
 for file in os.listdir(directory):
         temp = LangDict.from_csv(directory + file)
-        G = G.add(temp)
+        dict = dict.add(temp)
 
-
-'''#build new graph from the combined csvs
 
 g = nx.DiGraph()
-nx.from_dict_of_lists(LangDict.from_csv(file), create_using=g)
-g = g.reverse()'''
+nx.from_dict_of_lists(dict, create_using=g)
+g = g.reverse()
 
 #pickle here? probs
-#g = to_acyclic(g)
+g = to_acyclic(g)

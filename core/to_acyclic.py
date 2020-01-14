@@ -4,7 +4,7 @@ import networkx as nx
 # information. the result is transforming a cyclic to an acyclic graph
 
 def to_acyclic(g):
-
+    counter = 0
     while True:
         try:
             # 1. identify a cycle
@@ -28,16 +28,15 @@ def to_acyclic(g):
 
             # need the union of the two previous two nodes to be the new
             # node instead of if __ not in __
-            if  deleted_node not in preserved_node:
-                g = nx.relabel.relabel_nodes(g, {preserved_node:
-                    tuple(preserved_node)
-                    +
-                    tuple(deleted_node)
-                } )
+            g = nx.relabel.relabel_nodes(g, {preserved_node:
+                frozenset(preserved_node) | frozenset(deleted_node)
+            } )
 
         except nx.exception.NetworkXNoCycle:
             break
 
+        counter +=1
+        print("{} nodes collapsed\r".format(counter))
     return g
 
 #________________________________LOG_____________________________________

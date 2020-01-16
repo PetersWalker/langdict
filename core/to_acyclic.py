@@ -9,17 +9,10 @@ def to_acyclic(g):
         try:
             # 1. identify a cycle
             combined_nodes = nx.find_cycle(g)[0] #tuple
-            preserved_node = combined_nodes[0] #string first, becomes tuple
-            deleted_node = combined_nodes[1] #string first, becomes tuple
-
             '''if type(deleted_node) != str:
                 print(deleted_node)'''
 
             # 2. Contract the first two nodes of the cycle
-            g = nx.contracted_nodes(g,
-                preserved_node, deleted_node,
-                self_loops=False
-                )
 
             # 3. Relabel the nodes so that information in the the deleted node
             # is not lost.
@@ -28,9 +21,18 @@ def to_acyclic(g):
 
             # need the union of the two previous two nodes to be the new
             # node instead of if __ not in __
-            g = nx.relabel.relabel_nodes(g, {preserved_node:
-                frozenset(preserved_node) | frozenset(deleted_node)
-            } )
+            for i in range(len(combined_nodes)-1):
+                preserved_node = combined_nodes[i] #string first, becomes tuple
+                deleted_node = combined_nodes[i+1] #string first, becomes tuple
+
+                g = nx.contracted_nodes(g,
+                    preserved_node, deleted_node,
+                    self_loops=False
+                    )
+
+                g = nx.relabel.relabel_nodes(g, {preserved_node:
+                    frozenset(preserved_node) | frozenset(deleted_node)
+                } )
 
         except nx.exception.NetworkXNoCycle:
             break

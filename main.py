@@ -1,23 +1,11 @@
-import os
-import networkx as nx
+import pickle
+import networkx
 
-from core.langdict import LangDict
-from core.to_acyclic import to_acyclic
-#combine all csvs into one graph
-directory = '/Users/peterwalker/Desktop/projects/langdict/core/data/Dictionary_in_csv/'
+with open("G.pickle", "rb") as pickle_file:
+    g = pickle.load(pickle_file)
 
-#build new graph from the separate csvs
-dict = LangDict()
+order = g.order()
 
-#each file to Langdict, add together
-for file in os.listdir(directory):
-        temp = LangDict.from_csv(directory + file)
-        dict = dict.add(temp)
+print(order)
 
-
-g = nx.DiGraph()
-nx.from_dict_of_lists(dict, create_using=g)
-g = g.reverse()
-
-#pickle here? probs
-g = to_acyclic(g)
+print(g.graph)

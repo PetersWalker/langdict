@@ -11,22 +11,24 @@ directory = '/Users/peterwalker/Desktop/projects/langdict/core/data/Dictionary_i
 #build new graph from the separate csvs
 dict = LangDict()
 
-#each file to Langdict, add together
+#each file turns into a Langdict object, then gets added together into one
 for file in os.listdir(directory):
         temp = LangDict.from_csv(directory + file)
         dict = dict.add(temp)
 
+#turn the dictionary into a Digraph for analysis
 g = nx.DiGraph()
 nx.from_dict_of_lists(dict, create_using=g)
 g = g.reverse()
 
+#determine the stronly connected components
 scc = nx.strongly_connected_components(g)
-count = 0
 
-for i in scc:
-    count += 1
+#size of each dictionary
+digraph_count = len(dict)
+scc_count = sum(1 for comp in scc)
 
-print(count)
+print('there are {} strongly connected components out of {} definitions'.format(scc_count, digraph_count))
 G = nx.condensation(g, scc=scc)
 print(len(G))
 
